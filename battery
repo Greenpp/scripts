@@ -13,9 +13,9 @@ charger='CHR'
 if [[ $state == "Discharging" ]]; then
     if [[ $level == "100%" ]]; then
         color=$green
-    elif [[ $level < "50%" ]]; then
+    elif [[ $level =~ ^[1-4].% ]]; then
         color=$yellow
-    elif [[ $level < "10%" ]]; then
+    elif [[ $level =~ ^[0-9]% ]]; then
         color=$red
     else
         color=$lgreen
@@ -27,8 +27,8 @@ else
     icon=$charger
 fi
 
-if [[ $time =~ [0-9]*[0-9]:..:.. ]]; then
-    time=" [$time]"
+if [[ $time =~ ^[0-9]*[0-9]:..:.. ]]; then
+    time=" [$(grep -o ^[0-9]*[0-9]:.. <<< $time)]"
 else
     time=""
 fi
