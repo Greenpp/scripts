@@ -1,0 +1,25 @@
+#!/bin/bash
+
+BRIGHTNESS_PATH="/sys/class/backlight/intel_backlight"
+
+change=$1
+step=$((2))
+max_brightness=$((208))
+min_brightness=$((0))
+act_brightness=$(( $(cat $BRIGHTNESS_PATH/brightness) ))
+new_brightness=$act_brightness
+
+if [[ $change == "+" ]]; then
+    new_brightness=$(( $act_brightness + $step ))
+    if [[ $new_brightness -ge $max_brightness ]]; then
+        new_brightness=$max_brightness
+    fi
+elif [[ $change == "-" ]]; then
+    new_brightness=$(( $act_brightness - $step ))
+    if [[ $new_brightness -le $min_brightness ]]; then
+        new_brightness=$min_brightness
+    fi
+fi
+
+echo $new_brightness > $BRIGHTNESS_PATH/brightness
+
