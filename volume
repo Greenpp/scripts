@@ -1,0 +1,17 @@
+#!/bin/bash
+
+muted="MUT"
+unmuted="VOL"
+
+state=$( amixer get Master | grep -o "\[[onf]*\]" )
+
+if [[ $state == "[on]" ]]; then
+    volume=$( amixer get Master | grep -o [0-9]*[0-9]% )
+    icon=$unmuted
+elif [[ $state == "[off]" ]]; then
+    volume=""
+    icon=$muted
+fi
+
+echo "$icon $volume"
+

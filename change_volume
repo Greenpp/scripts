@@ -1,0 +1,14 @@
+#!/bin/bash
+
+change=$1
+
+if [[ $change == "+" ]]; then
+    amixer -q set Master 1%+
+    pkill -SIGRTMIN+8 i3blocks
+    alsactl -f $HOME/.alsa_state store
+elif [[ $change == "-" ]]; then
+    amixer -q set Master 1%-
+    pkill -SIGRTMIN+8 i3blocks
+    alsactl -f $HOME/.alsa_state store
+fi
+

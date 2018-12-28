@@ -1,0 +1,12 @@
+#!/bin/bash
+
+state=$( amixer get Master | grep -o "\[[onf]*\]" )
+
+if [[ $state == "[on]" ]]; then
+    amixer set Master mute
+    pkill -SIGRTMIN+8 i3blocks
+elif [[ $state == "[off]" ]]; then
+    amixer set Master unmute
+    pkill -SIGRTMIN+8 i3blocks
+fi
+
