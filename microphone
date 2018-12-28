@@ -1,0 +1,15 @@
+#!/bin/bash
+
+muted="OFF"
+unmuted="ON"
+
+state=$( amixer get Capture | grep -om1 "\[[onf]*\]" )
+
+if [[ $state == "[on]" ]]; then
+    icon=$unmuted
+elif [[ $state == "[off]" ]]; then
+    icon=$muted
+fi
+
+echo $icon
+
