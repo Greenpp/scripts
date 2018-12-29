@@ -7,8 +7,8 @@ yellow="#F7E017"
 red="#E00A0A"
 lgreen="#55C90F"
 
-battery='BAT'
-charger='CHR'
+battery='\U1F50B'
+charger='\U26A1'
 
 if [[ $state == "Discharging" ]]; then
     if [[ $level == "100%" ]]; then
@@ -33,7 +33,7 @@ else
     time=""
 fi
 
-echo "$icon $level$time"
+echo -e "$icon $level$time"
 echo ""
 echo "$color"
 
