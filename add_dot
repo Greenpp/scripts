@@ -1,0 +1,20 @@
+#!/bin/bash
+
+DOTS_DIR="$HOME/dots/"
+
+for FILE in $@; do
+    if [[ -f $FILE ]]; then
+        F_PATH=$(readlink -f $FILE | grep -o "/.*/")
+        F_NAME=$(basename $FILE)
+        
+        if [[ ! -e $DOTS_DIR$F_NAME ]]; then
+            mv $FILE $DOTS_DIR$(echo $F_NAME | cut -d '.' -f2)
+            ln -s $DOTS_DIR$F_NAME $F_PATH$F_NAME
+            
+            echo "Added $F_NAME to dots" 
+        else
+            echo "File with name $F_NAME already in dots"
+        fi
+    fi
+done
+
