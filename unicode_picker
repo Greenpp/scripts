@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ -f $HOME/.unicode_symbols ]]; then
-    chosen=$(grep -v "#" $HOME/.unicode_symbols | dmenu -i -l 20 -fn 'SauceCodePro Nerd Font-18' )
+    chosen=$(grep -v "#" $HOME/.unicode_symbols | dmenu -i -l 20 -fn 'monospace-18' )
 
     [[ $chosen != "" ]] || exit
 
