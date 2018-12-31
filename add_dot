@@ -23,6 +23,7 @@ for (( i=1; i<=$#; i=$(($i + $STEP)) )); do
 
     if [[ -f $file ]]; then
         f_path=$(readlink -f $file | grep -o "/.*/")
+        f_name=$(basename $file)
 
         while [[ -e $DOTS_DIR$link_name ]]; do
             echo "File with name $link_name ( $file ) alredy in dots"
