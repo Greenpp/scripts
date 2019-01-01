@@ -8,6 +8,7 @@ if [[ $state == "[on]" ]]; then
     alsactl -f $HOME/.alsa_state store
 elif [[ $state == "[off]" ]]; then
     amixer set Master unmute
+    amixer set Speaker unmute
     pkill -SIGRTMIN+8 i3blocks
     alsactl -f $HOME/.alsa_state store
 fi
