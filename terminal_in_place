@@ -9,5 +9,6 @@ if [[ $place == '' ]]; then
     place="$HOME"
 fi
 
-urxvt -cd "$place"
+#(cd $place && urxvt)
+(cd $place && st)
 
