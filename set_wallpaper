@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [[ $1 == '' ]]; then
+    echo "Nothing to do"
+    exit 0
+fi
+
+if [[ -f $1 ]]; then
+    wallpaper_dir="$HOME/Wallpapers/"
+    wallpaper_name=".current_wallpaper."
+    extension=$(basename $1 | cut -d '.' -f2)
+    rm "$wallpaper_dir$wallpaper_name"* 2>/dev/null
+    cp $1 "$wallpaper_dir$wallpaper_name$extension"
+    feh --bg-scale "$wallpaper_dir$wallpaper_name$extension"
+    notify-send 'Info' 'Wallpaper set'
+else
+    echo "No such file"
+fi
+
