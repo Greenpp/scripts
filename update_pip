@@ -1,0 +1,26 @@
+#!/bin/bash
+
+if [[ $UID != 0 ]]; then
+    echo "Use sudo"
+    exit 1
+fi
+
+echo "Checking packages..."
+
+out_packages=$(pip list --outdated --format=freeze | grep -v '\-e' | cut -d = -f1)
+out_num=$(echo $out_packages | wc -w)
+
+if [[ $out_num -eq 0 ]]; then
+    echo "Nothing to update"
+    exit 0
+elif [[ $out_num -eq 1 ]]; then
+    echo "Found $out_num outdated package"
+else
+    echo "Found $out_num outdated packages"
+fi
+
+echo "Updating..."
+
+echo $out_packages | xargs -n1 sudo pip install -U
+
+echo "Done"
