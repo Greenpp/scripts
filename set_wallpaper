@@ -1,7 +1,16 @@
 #!/bin/bash
 
+if ! [[ -x $(command -v sxiv) ]]; then
+    echo "sxiv required"
+    exit 1
+fi
+if ! [[ -x $(command -v feh) ]]; then
+    echo "feh required"
+    exit 1
+fi
+
 if [[ $1 == '' ]]; then
-    echo "Select one with m and exit with q"
+    echo "Select image with m and exit with q"
     wp=$(sxiv -ot $HOME/Wallpapers/*)
 else
     wp=$1
@@ -9,13 +18,11 @@ fi
 
 if [[ -f $wp ]]; then
     wallpaper_dir="$HOME/Wallpapers/"
-    wallpaper_name=".current_wallpaper."
     extension=$(basename $wp | cut -d '.' -f2)
-    rm "$wallpaper_dir$wallpaper_name"* 2>/dev/null
-    cp $wp "$wallpaper_dir$wallpaper_name$extension"
-    feh --bg-scale "$wallpaper_dir$wallpaper_name$extension"
-    notify-send 'Info' 'Wallpaper set'
+    rm "$wallpaper_dir.current_wallpaper."* 2>/dev/null
+    cp $wp "$wallpaper_dir.current_wallpaper.$extension"
+    feh --bg-scale "$wallpaper_dir.current_wallpaper.$extension"
 else
-    echo "No such file"
+    echo "File not found"
 fi
 
