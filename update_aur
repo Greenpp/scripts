@@ -1,0 +1,19 @@
+#!/bin/bash
+
+for DIR in $HOME/AUR/*; do
+    cd $DIR
+    name=$(basename $PWD)
+
+    echo -n "Checking $name ... "
+
+    result=$(git pull)
+    if [[ $result == "Already up to date." ]]; then
+        echo $result
+    else
+        echo "Updating"
+        makepkg -si
+    fi
+
+    cd ..
+done
+
