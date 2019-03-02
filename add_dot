@@ -14,7 +14,7 @@ for (( i=1; i<=$#; i=$(($i + $STEP)) )); do
     fi
 
     file=$arg
-    if $NAMEDi; then
+    if $NAMED; then
         j=$((i + 1))
         link_name=${!j}
     else
@@ -22,16 +22,13 @@ for (( i=1; i<=$#; i=$(($i + $STEP)) )); do
     fi
 
     if [[ -f $file ]]; then
-        f_path=$(readlink -f $file | grep -o "/.*/")
-        f_name=$(basename $file)
-
         while [[ -e $DOTS_DIR$link_name ]]; do
             echo "File with name $link_name ( $file ) alredy in dots"
             read -p "Rename it: " link_name
         done
 
         mv $file $DOTS_DIR$link_name
-        ln -s $DOTS_DIR$link_name $f_path$f_name
+        ln -s $DOTS_DIR$link_name $(readlink -f $file)
 
         echo "Added $file as $link_name to dots"
     else
