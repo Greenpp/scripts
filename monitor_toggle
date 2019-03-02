@@ -1,5 +1,14 @@
 #!/bin/bash
 
+if ! [[ -x $(command wpa_supplicant) ]]; then
+    echo "Requires wpa_supplicant"
+    exit 1
+fi
+if ! [[ -x $(command NetworkManager) ]]; then
+    echo "Requires NetworkManager"
+    exit 1
+fi
+
 if [[ $UID != 0 ]]; then
     echo "Use sudo"
     exit 1
