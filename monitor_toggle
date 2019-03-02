@@ -1,10 +1,10 @@
 #!/bin/bash
 
-if ! [[ -x $(command wpa_supplicant) ]]; then
+if ! [[ -x $(command -v wpa_supplicant) ]]; then
     echo "Requires wpa_supplicant"
     exit 1
 fi
-if ! [[ -x $(command NetworkManager) ]]; then
+if ! [[ -x $(command -v NetworkManager) ]]; then
     echo "Requires NetworkManager"
     exit 1
 fi
