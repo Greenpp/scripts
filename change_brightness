@@ -22,4 +22,5 @@ elif [[ $change == "-" ]]; then
 fi
 
 echo $new_brightness > $BRIGHTNESS_PATH/brightness
+pkill -SIGRTMIN+11 i3blocks
 
