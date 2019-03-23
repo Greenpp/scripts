@@ -11,7 +11,7 @@ fi
 
 if [[ $1 == '' ]]; then
     echo "Select image with m and exit with q"
-    wp=$(sxiv -ot $HOME/Wallpapers/*)
+    wp=$(sxiv -bfot $HOME/Wallpapers/*)
 else
     wp=$1
 fi
