@@ -1,0 +1,81 @@
+#!/bin/bash
+
+if ! [[ -x $(command -v wpa_supplicant) ]]; then
+    echo "Requires wpa_supplicant"
+    exit 1
+fi
+if ! [[ -x $(command -v NetworkManager) ]]; then
+    echo "Requires NetworkManager"
+    exit 1
+fi
+
+if [[ $UID != 0 ]]; then
+    echo "Use sudo"
+    exit 1
+fi
+
+current_mode=$(iwconfig wlp3s0 | grep Mode | cut -d ' ' -f11 | cut -d ':' -f2)
+if [[ $current_mode == "Managed"  ]]; then
+    target_mode="monitor"
+else
+    target_mode="managed"
+fi
+
+success=true
+if [[ $target_mode == "monitor" ]]; then
+    success=false
+    echo -n "Stopping NetworkManager... "
+    if sudo systemctl stop NetworkManager.service; then
+        echo "Done"
+        success=true
+    fi
+fi
+if $success && [[ $target_mode == "monitor" ]]; then
+    success=false
+    echo -n "Stopping wpa_supplicant... "
+    if sudo systemctl stop wpa_supplicant.service; then
+        echo "Done"
+        success=true
+    fi
+fi
+if $success; then
+    success=false
+    echo -n "Interface down... "
+    if sudo ip link set wlp3s0 down; then
+        echo "Done"
+        success=true
+    fi
+fi
+if $success; then
+    success=false
+    echo -n "Setting $target_mode mode... "
+    if sudo iwconfig wlp3s0 mode $target_mode; then
+        echo "Done"
+        success=true
+    fi
+fi
+if $success; then
+    success=false
+    echo -n "Interface up... "
+    if sudo ip link set wlp3s0 up; then
+        echo "Done"
+        success=true
+    fi
+fi
+if $success && [[ $target_mode == "managed" ]]; then
+    success=false
+    echo -n "Starting wpa_supplicant... "
+    if sudo systemctl start wpa_supplicant.service; then
+        echo "Done"
+        success=true
+    fi
+fi
+if $success && [[ $target_mode == "managed" ]]; then
+    success=false
+    echo -n "Starting NetworkManager... "
+    if sudo systemctl start NetworkManager.service; then
+        echo "Done"
+        success=true
+    fi
+fi
+

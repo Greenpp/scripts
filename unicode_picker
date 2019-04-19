@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [[ -f $HOME/.unicode_symbols ]]; then
+    chosen=$(grep -v "#" $HOME/.unicode_symbols | dmenu -i -l 20 -fn 'monospace-18' )
+
+    [[ $chosen != "" ]] || exit
+
+    c=$(echo "$chosen" | sed "s/ .*//")
+    echo "$c" | tr -d '\n' | xclip -selection clipboard
+
+    s=$(echo "$chosen" | sed "s/.*; //" | awk '{print $1}')
+    echo "$s" | tr -d '\n' | xclip
+fi
+
