@@ -9,15 +9,20 @@ actions=('google')
 
 if [[ $text =~ (https?://)?(www\.)?\w*\.\w* ]]; then
     actions+=('open url')
+else
+    actions+=('wiki')
 fi
 
 action=$(printf "%s\n" "${actions[@]}" | dmenu)
 
 case $action in
     'google')
-        $BROWSER "https://www.google.com/search?q=${text// /\+}" >/dev/null 2>&1 &
+        $BROWSER "https://www.google.com/search?q=$text" >/dev/null 2>&1 &
+        ;;
+    'wiki')
+        $BROWSER "https://en.wikipedia.org/wiki/$text" >/dev/null 2>&1 &
         ;;
     'open url')
-        $BROWSER $text
+        $BROWSER $text >/dev/null 2>&1 &
         ;;
 esac
