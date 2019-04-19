@@ -1,0 +1,14 @@
+#!/bin/bash
+
+state=$( amixer get Capture | grep -om1 "\[[onf]*\]" )
+
+if [[ $state == "[on]" ]]; then
+    amixer set Capture nocap
+    pkill -SIGRTMIN+9 i3blocks
+    alsactl -f $HOME/.alsa_state store
+elif [[ $state == "[off]" ]]; then
+    amixer set Capture cap
+    pkill -SIGRTMIN+9 i3blocks
+    alsactl -f $HOME/.alsa_state store
+fi
+

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+read state level time <<< $(acpi | cut -d ' ' -f3,4,5 | tr -d ',')
+
+green="#189C07"
+yellow="#F7E017"
+red="#E00A0A"
+lgreen="#55C90F"
+
+battery='\U1F50B'
+# charger='\U26A1'
+charger='\uF0E7'
+
+if [[ $state == "Discharging" ]]; then
+    if [[ $level == "100%" ]]; then
+        color=$green
+    elif [[ $level =~ ^[1-4].% ]]; then
+        color=$yellow
+    elif [[ $level =~ ^[0-9]% ]]; then
+        color=$red
+    else
+        color=$lgreen
+    fi
+
+    icon=$battery
+else
+    color=$green
+    icon=$charger
+fi
+
+if [[ $time =~ ^[0-9]*[0-9]:..:.. ]]; then
+    time=" [$(grep -o ^[0-9]*[0-9]:.. <<< $time)]"
+else
+    time=""
+fi
+
+echo -e "$icon $level$time"
+echo ""
+echo "$color"
+
