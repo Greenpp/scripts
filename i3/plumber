@@ -1,6 +1,10 @@
 #!/bin/bash
 
-text=$(xclip -o -selection clipboard)
+text=$(xclip -o)
+if [[ $? -ne 0 ]]; then
+    exit 1
+fi
+
 actions=('google')
 
 if [[ $text =~ (https?://)?(www\.)?\w*\.\w* ]]; then
