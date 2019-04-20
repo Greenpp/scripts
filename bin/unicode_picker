@@ -5,5 +5,5 @@ if [[ -f $HOME/.unicode_symbols ]]; then
 
     [[ $chosen != "" ]] || exit
 
-    echo $chosen | cut -d ' ' -f1 | tee >(xclip -selection clipboard) >(xclip) >/dev/null
+    echo $chosen | cut -d ' ' -f1 | xclip -selection clipboard
 fi
