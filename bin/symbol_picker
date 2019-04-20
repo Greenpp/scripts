@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ -f $HOME/.symbols ]]; then
+    chosen=$(cat $HOME/.symbols | dmenu -i -l 20 -fn 'monospace-18' )
+
+    [[ $chosen != "" ]] || exit
+
+    echo $chosen | cut -d ';' -f1 | xclip -selection clipboard
+fi
