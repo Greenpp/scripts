@@ -5,10 +5,45 @@ if [[ $? -ne 0 ]]; then
     exit 1
 fi
 
+open_in_browser(){
+    $BROWSER $text >/dev/null 2>&1 &
+}
+
+search_in_google(){
+    $BROWSER "https://www.google.com/search?q=$text" >/dev/null 2>&1 &
+}
+
+search_in_wiki(){
+    $BROWSER "https://en.wikipedia.org/wiki/$text" >/dev/null 2>&1 &
+}
+
+download_video(){
+    cd $HOME/Downloads
+    notify-send "Downloading ..."
+    youtube-dl $text
+    if [[ $? -eq 0 ]]; then
+        notify-send "File downloaded"
+    else
+        notify-send "Downloading failed"
+    fi
+}
+
+download_music(){
+    cd $HOME/Downloads
+    notify-send "Downloading ..."
+    youtube-dl --extract-audio --audio-format mp3 --audio-quality 0 $text
+    if [[ $? -eq 0 ]]; then
+        notify-send "File downloaded"
+    else
+        notify-send "Downloading failed"
+    fi
+}
+
+
 actions=('google')
 
-if [[ $text =~ (https?://)?(www\.)?\w*\.\w* ]]; then
-    actions+=('open url')
+if [[ $text =~ (https?:\/\/)?(www\.)?\w*\.\w*(\/[^\/ ]*)* ]]; then
+    actions+=('open url' 'download video' 'download music')
 else
     actions+=('wiki')
 fi
@@ -17,12 +52,18 @@ action=$(printf "%s\n" "${actions[@]}" | dmenu)
 
 case $action in
     'google')
-        $BROWSER "https://www.google.com/search?q=$text" >/dev/null 2>&1 &
+        search_in_google
         ;;
     'wiki')
-        $BROWSER "https://en.wikipedia.org/wiki/$text" >/dev/null 2>&1 &
+        search_in_wiki
         ;;
     'open url')
-        $BROWSER $text >/dev/null 2>&1 &
+        open_in_browser
+        ;;
+    'download video')
+        download_video
+        ;;
+    'download music')
+        download_music
         ;;
 esac
