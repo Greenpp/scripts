@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if ![[ -f $HOME/.music_to_download ]]; then
+if [[ ! -f $HOME/.music_to_download ]]; then
     echo "No download file"
     exit 0
 fi
