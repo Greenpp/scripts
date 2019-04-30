@@ -2,19 +2,19 @@
 
 text=$(xclip -o)
 if [[ $? -ne 0 ]]; then
-    exit 1
+    exit 0
 fi
 
 open_in_browser(){
-    $BROWSER $text >/dev/null 2>&1 &
+    $BROWSER $text
 }
 
 search_in_google(){
-    $BROWSER "https://www.google.com/search?q=$text" >/dev/null 2>&1 &
+    $BROWSER "https://www.google.com/search?q=$text"
 }
 
 search_in_wiki(){
-    $BROWSER "https://en.wikipedia.org/wiki/$text" >/dev/null 2>&1 &
+    $BROWSER "https://en.wikipedia.org/wiki/$text"
 }
 
 download_video(){
@@ -22,48 +22,48 @@ download_video(){
     notify-send "Downloading ..."
     youtube-dl $text
     if [[ $? -eq 0 ]]; then
-        notify-send "File downloaded"
+        notify-send "Video downloaded"
     else
         notify-send "Downloading failed"
     fi
 }
 
-download_music(){
-    cd $HOME/Downloads
-    notify-send "Downloading ..."
-    youtube-dl --extract-audio --audio-format mp3 --audio-quality 0 $text
-    if [[ $? -eq 0 ]]; then
-        notify-send "File downloaded"
-    else
-        notify-send "Downloading failed"
-    fi
+save_to_download(){
+    echo $text >> $HOME/.music_to_download
+    notify-send "URL added"
 }
 
 
-actions=('google')
+action_google='google'
+action_url='open url'
+action_wiki='wiki'
+action_video='download video'
+action_music='todo music'
+
+actions=($action_google)
 
 if [[ $text =~ (https?:\/\/)?(www\.)?\w*\.\w*(\/[^\/ ]*)* ]]; then
-    actions+=('open url' 'download video' 'download music')
+    actions+=($action_url $action_video $action_music)
 else
-    actions+=('wiki')
+    actions+=($action_wiki)
 fi
 
 action=$(printf "%s\n" "${actions[@]}" | dmenu)
 
 case $action in
-    'google')
+    $action_google)
         search_in_google
         ;;
-    'wiki')
+    $action_wiki)
         search_in_wiki
         ;;
-    'open url')
+    $action_url)
         open_in_browser
         ;;
-    'download video')
+    $action_video)
         download_video
         ;;
-    'download music')
+    $action_music)
         download_music
         ;;
 esac
