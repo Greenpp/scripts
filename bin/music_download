@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if ![[ -f $HOME/.music_to_download ]]; then
+    echo "No download file"
+    exit 0
+fi
+
+cd $HOME/Music/Downloads
+for url in $(cat $HOME/.music_to_download); do
+    youtube-dl --extract-audio --audio-format mp3 --audio-quality 0 $url
+done
+
