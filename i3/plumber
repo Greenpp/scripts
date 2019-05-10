@@ -30,7 +30,7 @@ download_video(){
 
 save_to_download(){
     echo $text >> $HOME/.music_to_download
-    notify-send "URL added"
+    notify-send "URL added" $text
 }
 
 
@@ -48,7 +48,15 @@ else
     actions+=($action_wiki)
 fi
 
-action=$(printf "%s\n" "${actions[@]}" | dmenu -p 'Action:')
+prompt='Action'
+text_len=$(( $(wc -c <<< $text) ))
+if [[ $text_len -gt 50 ]]; then
+    prompt=$prompt"(${text:0:20}...${text:$text_len-20}):"
+else
+    prompt=$prompt"($text):"
+fi
+
+action=$(printf "%s\n" "${actions[@]}" | dmenu -p "$prompt")
 
 case $action in
     $action_google)
@@ -64,6 +72,6 @@ case $action in
         download_video
         ;;
     $action_music)
-        download_music
+        save_to_download
         ;;
 esac
