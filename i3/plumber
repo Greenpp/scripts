@@ -35,10 +35,10 @@ save_to_download(){
 
 
 action_google='google'
-action_url='open url'
+action_url='open_url'
 action_wiki='wiki'
-action_video='download video'
-action_music='todo music'
+action_video='download_video'
+action_music='todo_music'
 
 actions=($action_google)
 
