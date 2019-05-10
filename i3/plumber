@@ -48,7 +48,7 @@ else
     actions+=($action_wiki)
 fi
 
-action=$(printf "%s\n" "${actions[@]}" | dmenu)
+action=$(printf "%s\n" "${actions[@]}" | dmenu -p 'Action:')
 
 case $action in
     $action_google)
