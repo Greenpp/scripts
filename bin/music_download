@@ -10,6 +10,7 @@ tmp_file=$(mktemp)
 cd $HOME/Music/Downloads
 for url in $(cat $HOME/.music_to_download); do
     echo -n "Downloading $(youtube-dl --no-warnings --get-title $url 2>/dev/null)..."
+    sleep 3
     youtube-dl --extract-audio --audio-format mp3 --audio-quality 0 $url >/dev/null 2>&1
 
     if [[ $? -eq 0 ]]; then
@@ -18,6 +19,7 @@ for url in $(cat $HOME/.music_to_download); do
         echo 'Error'
         echo $url >> $tmp_file
     fi
+    sleep 3
 done
 
 mv $tmp_file $HOME/.music_to_download
