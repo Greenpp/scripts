@@ -17,6 +17,10 @@ search_in_wiki(){
     $BROWSER "https://en.wikipedia.org/wiki/$text"
 }
 
+search_in_yt(){
+    $BROWSER "https://www.youtube.com/results?search_query=$text"
+}
+
 download_video(){
     cd $HOME/Downloads
     notify-send "Downloading ..."
@@ -39,13 +43,14 @@ action_url='open_url'
 action_wiki='wiki'
 action_video='download_video'
 action_music='todo_music'
+action_yt='youtube'
 
 actions=($action_google)
 
 if [[ $text =~ (https?:\/\/)?(www\.)?\w*\.\w*(\/[^\/ ]*)* ]]; then
     actions+=($action_url $action_video $action_music)
 else
-    actions+=($action_wiki)
+    actions+=($action_wiki $action_yt)
 fi
 
 prompt='Action'
@@ -73,5 +78,8 @@ case $action in
         ;;
     $action_music)
         save_to_download
+        ;;
+    $action_yt)
+        search_in_yt
         ;;
 esac
