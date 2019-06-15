@@ -1,32 +1,21 @@
-#!/bin/bash
+#!/bin/sh
 
-if ! [[ -x $(command -v sxiv) ]]; then
-    echo "sxiv required"
-    exit 1
-fi
-if ! [[ -x $(command -v feh) ]]; then
-    echo "feh required"
-    exit 1
-fi
+# Dependencies check
+type sxiv 2>&1 >/dev/null || echo 'sxiv required'; exit 1
+type feh 2>&1 >/dev/null || echo 'feh required'; exit 1
 
-if [[ $1 == '' ]]; then
-    echo "Select image with m and exit with q"
-    wp=$(sxiv -bfot $HOME/Wallpapers/*)
-elif [[ $1 == '-s' ]]; then
-    if ! [[ $2 == '' ]]; then
-        wp=$(sxiv -bfot $HOME/Wallpapers/*$2*)
-    fi
-else
+
+if [ $# -eq 1 ] && [ -f $1 ]; then
     wp=$1
+else
+    wp=$(sxiv -bfot $HOME/Wallpapers/*)
 fi
 
-if [[ -f $wp ]]; then
-    wallpaper_dir="$HOME/Wallpapers/"
-    extension=$(basename $wp | cut -d '.' -f2)
-    rm "$wallpaper_dir.current_wallpaper."* 2>/dev/null
-    cp $wp "$wallpaper_dir.current_wallpaper.$extension"
-    feh --bg-scale "$wallpaper_dir.current_wallpaper.$extension"
-else
-    echo "File not found"
+if [ -f $wp ]; then
+    wp_dir="$HOME/Wallpapers/"
+    ext=$(basename $wp | cut -d '.' -f2)
+    rm "$wp_dir.current_wallpaper."* 2>&1 >/dev/null
+    cp $wp "$wp_dir.current_wallpaper.$ext"
+    feh --bg-scale "$wp_dir.current_wallpaper.$ext"
 fi
 
