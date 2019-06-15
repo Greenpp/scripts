@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Check for argument
+[ $# -ne 1 ] && exit 1
+# Check if argument is runnable
+type $1 2>&1 >/dev/null || exit 1
+
+# Get focused window location
+focused_id=$(xprop -id `xdotool getwindowfocus` _NET_WM_PID | cut -d ' ' -f3)
+focused_id=$(( $focused_id + 1 ))
+
+location=$(pwdx $focused_id | cut -d ' ' -f2)
+
+# Set location to home if it doesnt exists
+if [ $location = '' ]; then
+    location=$HOME
+fi
+
+# Execute in location
+cd $location && $1
+
