@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # Dependencies check
-type sxiv 2>&1 >/dev/null || echo 'sxiv required'; exit 1
-type feh 2>&1 >/dev/null || echo 'feh required'; exit 1
+type sxiv 2>&1 >/dev/null || { echo 'sxiv required'; exit 1; }
+type feh 2>&1 >/dev/null || { echo 'feh required'; exit 1; }
 
 
 if [ $# -eq 1 ] && [ -f $1 ]; then
@@ -11,7 +11,7 @@ else
     wp=$(sxiv -bfot $HOME/Wallpapers/*)
 fi
 
-if [ -f $wp ]; then
+if [ ! -z $wp ] && [ -f $wp ]; then
     wp_dir="$HOME/Wallpapers/"
     ext=$(basename $wp | cut -d '.' -f2)
     rm "$wp_dir.current_wallpaper."* 2>&1 >/dev/null
