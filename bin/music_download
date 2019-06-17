@@ -3,28 +3,38 @@
 url_file="$HOME/.music_to_download"
 download_dir="$HOME/Music/Downloads"
 
+# Exit if download file doesn't exist
 [ ! -f $url_file ] && exit
+# Create download dir if doesn't exist
 [ ! -d $download_dir ] && mkdir -p $download_dir
 
+# Create tmp file for failed downloads
 tmp_file=$(mktemp)
+# Total number of urls
 url_num=$(wc -l $url_file | cut -d ' ' -f1)
 
-succes=$(( 0 ))
+# Success counter
+success=$(( 0 ))
 cd $download_dir
 for url in $(cat $url_file); do
+    # Fetch title
     notify-send "Downloading..." "$(youtube-dl --no-warnings --get-title $url 2>/dev/null)"
     sleep 3
+    # Download after 3s to prevent lock
     youtube-dl --extract-audio --audio-format mp3 --audio-quality 0 $url >/dev/null 2>&1
 
     if [ $? -eq 0 ]; then
-        succes=$(( $succes + 1 ))
+        success=$(( $success + 1 ))
     else
+        # Append url to tmp file if download failed
         echo $url >> $tmp_file
     fi
     sleep 3
 done
 
+# Create backup of download file
 mv $url_file $url_file.bak
+# Replace download file with failed downloads
 mv $tmp_file $url_file
-notify-send "DONE" "Downloaded $succes/$url_num files"
+notify-send "DONE" "Downloaded $success/$url_num files"
 

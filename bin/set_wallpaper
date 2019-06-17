@@ -4,7 +4,7 @@
 type sxiv 2>&1 >/dev/null || { echo 'sxiv required'; exit 1; }
 type feh 2>&1 >/dev/null || { echo 'feh required'; exit 1; }
 
-
+# Set chosen file or pick with sxiv
 if [ $# -eq 1 ] && [ -f $1 ]; then
     wp=$1
 else
@@ -13,9 +13,14 @@ fi
 
 if [ ! -z $wp ] && [ -f $wp ]; then
     wp_dir="$HOME/Wallpapers/"
+
+    # File extension
     ext=$(basename $wp | cut -d '.' -f2)
+    # Remove old wallpaper
     rm "$wp_dir.current_wallpaper."* 2>&1 >/dev/null
+    # Copy as new wallpaper
     cp $wp "$wp_dir.current_wallpaper.$ext"
+    # Set with feh
     feh --bg-scale "$wp_dir.current_wallpaper.$ext"
 fi
 

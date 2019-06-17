@@ -5,14 +5,14 @@
 # Check if argument is runnable
 type $1 2>&1 >/dev/null || exit 1
 
-# Get focused window location
+# Get focused window id
 focused_id=$(xprop -id `xdotool getwindowfocus` _NET_WM_PID | cut -d ' ' -f3 )
 
 # Check if pid exists
 if [ $focused_id = 'not' ]; then
     location=$HOME
 else
-    # Add 1 for terminal process
+    # Add 1 for terminal window
     term_id=$(( $focused_id + 1 ))
     [ -e /proc/$term_id/exe ] && focused_id=$term_id
 
