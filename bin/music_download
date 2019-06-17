@@ -1,13 +1,17 @@
 #!/bin/sh
 
-[ ! -f $HOME/.music_to_download ] && exit
+url_file="$HOME/.music_to_download"
+download_dir="$HOME/Music/Downloads"
+
+[ ! -f $url_file ] && exit
+[ ! -d $download_dir ] && mkdir -p $download_dir
 
 tmp_file=$(mktemp)
-url_num=$(wc -l | cut -d ' ' -f1)
+url_num=$(wc -l $url_file | cut -d ' ' -f1)
 
 succes=$(( 0 ))
-cd $HOME/Music/Downloads
-for url in $(cat $HOME/.music_to_download); do
+cd $download_dir
+for url in $(cat $url_file); do
     notify-send "Downloading..." "$(youtube-dl --no-warnings --get-title $url 2>/dev/null)"
     sleep 3
     youtube-dl --extract-audio --audio-format mp3 --audio-quality 0 $url >/dev/null 2>&1
@@ -20,7 +24,7 @@ for url in $(cat $HOME/.music_to_download); do
     sleep 3
 done
 
-mv $HOME/.music_to_download $HOME/.music_to_download.bak
-mv $tmp_file $HOME/.music_to_download
+mv $url_file $url_file.bak
+mv $tmp_file $url_file
 notify-send "DONE" "Downloaded $succes/$url_num files"
 
