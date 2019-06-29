@@ -1,0 +1,4 @@
+#!/bin/sh
+
+bar_pid=$(pgrep dwmbar)
+[ ! -z $bar_pid ] && killall -n $bar_pid sleep
