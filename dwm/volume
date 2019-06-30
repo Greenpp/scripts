@@ -1,0 +1,24 @@
+#!/bin/sh
+
+mixer_out=$(amixer sget Master | grep Left:)
+icon='🔇'
+vol=''
+
+state=$(echo $mixer_out | rev | cut -d' ' -f1 | rev)
+if [ $state = '[on]' ]; then
+    vol=$(echo $mixer_out | grep -o '[0-9]\+%')
+    case $vol in
+        [0-9]%)
+            icon=' '
+            ;;
+        [1-4]?%)
+            icon=' '
+            ;;
+        *)
+            icon=' '
+            ;;
+    esac
+fi
+
+printf '%s%4s' $icon $vol
+
