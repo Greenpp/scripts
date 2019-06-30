@@ -1,9 +1,7 @@
 #!/bin/sh
 
-if [ -f $HOME/.symbols ]; then
-    chosen=$(cat $HOME/.symbols | dmenu -i -l 20 -fn 'monospace-18' )
+[ ! -f $HOME/.symbols ] && exit 1
 
-    [ $chosen = '' ] && exit
-
-    echo $chosen | cut -d ';' -f1 | tr -d '\n' | xclip -selection clipboard
-fi
+chosen=$(cat $HOME/.symbols | dmenu -i -l 20 -fn 'monospace-18' )
+[ -z $chosen ] && exit 0
+echo $chosen | cut -d ';' -f1 | tr -d '\n' | xclip -selection clipboard
