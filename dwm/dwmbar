@@ -1,6 +1,6 @@
 #!/bin/sh
 
-bar="barsimple"
+bar="baraudio"
 
 cd $(dirname $(readlink -e $0))
 
