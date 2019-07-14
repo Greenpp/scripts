@@ -1,0 +1,9 @@
+#!/bin/sh
+
+sep='|'
+vol=$(./volume)
+battery="$(./battery) $sep "
+mic=$(./mic)
+[ -z $mic ] || mic="$mic $sep "
+
+echo -n "$mic$battery$vol"

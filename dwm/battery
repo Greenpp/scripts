@@ -1,0 +1,27 @@
+#!/bin/sh
+
+charging=$(acpi --ac-adapter | cut -d' ' -f3 | cut -d- -f1)
+power=$(acpi --battery | cut -d, -f2 | cut -d' ' -f2)
+if [ $charging = 'on' ]; then
+    icon=""
+else
+    case $power in
+        [8-9]?%|100%)
+            icon=''
+            ;;
+        [6-7]?%)
+            icon=''
+            ;;
+        [4-5]?%)
+            icon=''
+            ;;
+        [2-3]?%)
+            icon=''
+            ;;
+        *)
+            icon=''
+            ;;
+    esac
+fi
+
+printf '%s%4s' $icon $power

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+brightness_path='/sys/class/backlight/intel_backlight'
+icon=''
+
+max_brightness=$(( 208 ))
+current_brightness=$(( $(cat $brightness_path/brightness) ))
+
+level=$(( $current_brightness * 100 / $max_brightness ))%
+
+printf '%s%4s' $icon $level

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+bar="barlaptop"
+
+cd $(dirname $(readlink -e $0))
+
+while true; do
+    xsetroot -name "$(./$bar)"
+    sleep 10s
+done
+
