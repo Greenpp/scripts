@@ -9,13 +9,13 @@ if [ $state = '[on]' ]; then
     vol=$(echo $mixer_out | grep -o '[0-9]\+%')
     case $vol in
         [0-9]%)
-            icon=' '
+            icon=''
             ;;
         [1-4]?%)
-            icon=' '
+            icon=''
             ;;
         *)
-            icon=' '
+            icon=''
             ;;
     esac
 fi
