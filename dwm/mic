@@ -3,4 +3,3 @@
 icon=''
 state=$(amixer sget Capture | grep Left: | rev | cut -d' ' -f1 | rev)
 [ $state = '[off]' ] && echo -n $icon
-

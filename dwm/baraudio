@@ -1,12 +1,7 @@
 #!/bin/sh
 
-mic=$(./mic)
-if [ ! -z $mic ]; then
-    mic="$mic | "
-fi
-
 vol=$(./volume)
+mic=$(./mic)
+[ -z $mic ] || mic="$mic | "
 
-bar="$mic$vol"
-
-echo -n $bar
+echo -n $mic$vol

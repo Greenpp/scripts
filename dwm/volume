@@ -21,4 +21,3 @@ if [ $state = '[on]' ]; then
 fi
 
 printf '%s%4s' $icon $vol
-
