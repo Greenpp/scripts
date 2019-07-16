@@ -3,7 +3,9 @@
 sep='|'
 vol=$(./volume)
 battery="$(./battery) $sep "
+wifi=$(./wifi)
+[ -z $wifi ] || wifi="$wifi $sep "
 mic=$(./mic)
 [ -z $mic ] || mic="$mic $sep "
 
-echo -n "$mic$battery$vol"
+echo -n "$mic$wifi$battery$vol"

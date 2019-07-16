@@ -1,0 +1,5 @@
+#!/bin/sh
+
+wifi_data=$(nmcli d | grep wifi\ | tr -s ' ')
+status=$(echo $wifi_data | cut -d' ' -f3)
+[ $status = 'connected' ] && echo -n " $(echo $wifi_data | cut -d' ' -f4)"
