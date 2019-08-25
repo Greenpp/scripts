@@ -9,7 +9,7 @@ for DIR in $HOME/AUR/*; do
     if [ "$result" = "Already up to date." ]; then
         echo "Nothing to do"
     else
-        echo "New update"
+        printf "%b\n" "\033[32mNew update\033[0m"
     fi
 
     cd ..
