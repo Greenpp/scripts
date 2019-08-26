@@ -56,12 +56,12 @@ fi
 prompt='Action'
 text_len=$(( $(wc -c <<< $text) ))
 if [[ $text_len -gt 50 ]]; then
-    prompt=$prompt"(${text:0:20}...${text:$text_len-20}):"
+    prompt=$prompt"(${text:0:20}...${text:$text_len-20})"
 else
-    prompt=$prompt"($text):"
+    prompt=$prompt"($text)"
 fi
 
-action=$(printf "%s\n" "${actions[@]}" | dmenu -p "$prompt")
+action=$(printf "%s\n" "${actions[@]}" | rofi -dmenu -p "$prompt")
 
 case $action in
     $action_google)

@@ -2,6 +2,6 @@
 
 [ ! -f $HOME/.symbols ] && exit 1
 
-chosen=$(cat $HOME/.symbols | dmenu -i -l 20 -fn 'monospace-18' )
+chosen=$(cat $HOME/.symbols | rofi -dmenu -font 'Monospace 15' -p 'Symbol')
 [ -z $chosen ] && exit 0
 echo $chosen | cut -d ';' -f1 | tr -d '\n' | xclip -selection clipboard
