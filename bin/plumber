@@ -53,7 +53,7 @@ action_google='google'
 action_url='open_url'
 action_wiki='wiki'
 action_video='download_video'
-action_music='download audio'
+action_music='download_audio'
 action_music_todo='todo_music'
 action_yt='youtube'
 
