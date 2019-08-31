@@ -95,5 +95,6 @@ case $action in
         search_in_yt
         ;;
     $action_music)
+        download_audio
         ;;
 esac
