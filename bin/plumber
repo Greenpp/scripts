@@ -28,18 +28,18 @@ download_video(){
     if [[ $? -eq 0 ]]; then
         notify-send "Video downloaded"
     else
-        notify-send "Downloading failed"
+        notify-send -u critical "Downloading failed"
     fi
 }
 
-download_music(){
+download_audio(){
     cd $HOME/Music/Downloads
     notify-send "Downloading audio ..."
     youtube-dl --extract-audio --audio-format mp3 --audio-quality 0 $text
     if [[ $? -eq 0 ]]; then
         notify-send "Audio downloaded"
     else
-        notify-send "Downloading failed"
+        notify-send -u critical "Downloading failed"
     fi
 }
 
