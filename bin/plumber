@@ -23,10 +23,21 @@ search_in_yt(){
 
 download_video(){
     cd $HOME/Downloads
-    notify-send "Downloading ..."
+    notify-send "Downloading video ..."
     youtube-dl $text
     if [[ $? -eq 0 ]]; then
         notify-send "Video downloaded"
+    else
+        notify-send "Downloading failed"
+    fi
+}
+
+download_music(){
+    cd $HOME/Music/Downloads
+    notify-send "Downloading audio ..."
+    youtube-dl --extract-audio --audio-format mp3 --audio-quality 0 $text
+    if [[ $? -eq 0 ]]; then
+        notify-send "Audio downloaded"
     else
         notify-send "Downloading failed"
     fi
@@ -42,13 +53,14 @@ action_google='google'
 action_url='open_url'
 action_wiki='wiki'
 action_video='download_video'
-action_music='todo_music'
+action_music='download audio'
+action_music_todo='todo_music'
 action_yt='youtube'
 
 actions=($action_google)
 
 if [[ $text =~ (https?:\/\/)?(www\.)?\w*\.\w*(\/[^\/ ]*)* ]]; then
-    actions+=($action_url $action_video $action_music)
+    actions+=($action_url $action_music $action_video $action_music_todo)
 else
     actions+=($action_wiki $action_yt)
 fi
@@ -76,10 +88,12 @@ case $action in
     $action_video)
         download_video
         ;;
-    $action_music)
+    $action_music_todo)
         save_to_download
         ;;
     $action_yt)
         search_in_yt
+        ;;
+    $action_music)
         ;;
 esac
